@@ -1,78 +1,34 @@
-"use client";
-import { React, useState } from "react";
-import Layout from "../component/Layout";
+
+import { React, useState } from "react"
+import Layout from "@/component/Layout";
 import Link from "next/link";
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
-import Eyebtn from "../component/Eyebtn";
+import Eyebtn from "@/component/Eyebtn";
 
-
-const SignUp = () => {
+const SignUpSeller = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [shopname, setShopname] = useState(""); 
+  const [category, setCategory] = useState("clothes");
   const [showEye, setShowEye] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
 
-  const isValidEmail = (email) => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    return emailRegex.test(email);
+  const categories = ["clothes", "electronics", "furniture", "home appliances", "groceries"];
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-    const name = e.target[2].value;
-    const address = e.target[3].value;
-    const phone = e.target[4].value;
-    
-  
-  
-  if (!isValidEmail(email)) {
-    setError("Email is invalid");
-    return;
-  }
+    // logic
+  };
 
-  if (!password || password.length < 8) {
-    setError("Password is invalid");
-    return;
-  }
-
-  try {
-    const res = await fetch("/api/register/route", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-       name,
-       address,
-       phone,
-      }),
-    });
-    if (res.status === 400) {
-      setError("This email is already registered");
-    }
-    if (res.status === 200) {
-      setError("");
-      router.push("/login");
-    }
-  } catch (error) {
-    setError("Error, try again");
-    console.log(error);
-  }
-};
-const eyeToggle = (e) => {
-  e.preventDefault();
-  setShowEye(!showEye)
-}
-
+  const eyeToggle = (e) => {
+    e.preventDefault();
+    setShowEye(!showEye);
+  };
 
   return (
     <Layout>
@@ -81,15 +37,14 @@ const eyeToggle = (e) => {
           {/* main heading */}
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
-              Create a new account
+              Create a new account as a Seller
             </h2>
             <p className="flex flex-col mt-2 text-center text-sm leading-5 text-gray-500 max-w">
-              Or
-              <div
-                className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150"
-              >
-                <Link href='/SignIn'>
-                login to your account
+              -OR-
+              <p>Already have an account</p>
+              <div className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                <Link href='/seller/Signin'>
+                  Login 
                 </Link>
               </div>
             </p>
@@ -97,18 +52,11 @@ const eyeToggle = (e) => {
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-              <form
-                method="POST"
-                // action="#"
-                onSubmit={handleSubmit}
-                >
+              <form onSubmit={handleSubmit}>
 
                 {/* name field */}
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium leading-5  text-gray-700"
-                  >
+                  <label htmlFor="name" className="block text-sm font-medium leading-5 text-gray-700">
                     Name
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -127,10 +75,7 @@ const eyeToggle = (e) => {
 
                 {/* Email Address */}
                 <div className="mt-6">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium leading-5  text-gray-700"
-                  >
+                  <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-700">
                     Email address
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -149,10 +94,7 @@ const eyeToggle = (e) => {
 
                 {/* password */}
                 <div className="mt-6">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium leading-5 text-gray-700"
-                  >
+                  <label htmlFor="password" className="block text-sm font-medium leading-5 text-gray-700">
                     Password
                   </label>
 
@@ -172,10 +114,7 @@ const eyeToggle = (e) => {
 
                 {/* phone field  */}
                 <div className="mt-6">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium leading-5  text-gray-700"
-                  >
+                  <label htmlFor="phone" className="block text-sm font-medium leading-5 text-gray-700">
                     Phone
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -190,27 +129,65 @@ const eyeToggle = (e) => {
                       className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                     />
                   </div>
+                </div>
 
-                  {/* address field */}
-                  <div className="mt-6">
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium leading-5  text-gray-700"
+                {/* address field */}
+                <div className="mt-6">
+                  <label htmlFor="address" className="block text-sm font-medium leading-5 text-gray-700">
+                    Address
+                  </label>
+                  <div className="mt-1 relative rounded-md shadow-sm">
+                    <input
+                      id="address"
+                      name="address"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="123 Street, City"
+                      type="text"
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                    />
+                  </div>
+                </div>
+
+                {/* shopname field */}
+                <div className="mt-6">
+                  <label htmlFor="shopname" className="block text-sm font-medium leading-5 text-gray-700">
+                    Shop Name
+                  </label>
+                  <div className="mt-1 relative rounded-md shadow-sm">
+                    <input
+                      id="shopname"
+                      name="shopname"
+                      value={shopname}
+                      onChange={(e) => setShopname(e.target.value)}
+                      placeholder="My Shop"
+                      type="text"
+                      required
+                      className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                    />
+                  </div>
+                </div>
+
+                {/* product category dropdown */}
+                <div className="mt-6">
+                  <label htmlFor="category" className="block text-sm font-medium leading-5 text-gray-700">
+                    Product Category
+                  </label>
+                  <div className="mt-1 relative rounded-md shadow-sm">
+                    <select
+                      id="category"
+                      name="category"
+                      value={category}
+                      onChange={handleCategoryChange}
+                      className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                     >
-                      Address
-                    </label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
-                      <input
-                        id="address"
-                        name="address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        placeholder="brohi@xyz.com"
-                        type="text"
-                        required
-                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
-                      />
-                    </div>
+                      {categories.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
@@ -223,12 +200,9 @@ const eyeToggle = (e) => {
                     >
                       Create account
                     </button>
-                    {/* <p className="text-red-600 text-[16px] mb-4">{error && error}</p> */}
                   </span>
                 </div>
-
               </form>
-
             </div>
           </div>
         </div>
@@ -237,4 +211,4 @@ const eyeToggle = (e) => {
   );
 };
 
-export default SignUp;
+export default SignUpSeller;

@@ -13,9 +13,7 @@ import { FaShoppingCart } from "react-icons/fa";
 const Navbar = () => {
   const router = useRouter();
 
-  const handleRegistrationClick = () => {
-    router.push('/registration/registration');
-  };
+
 
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [opensearch, setOpensearch] = useState(false);
@@ -167,45 +165,53 @@ const Navbar = () => {
   
    
   <nav className="bg-gray-900 text-white border-gray-200 dark:bg-gray-900">
-  <div className="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4">
+  <div className="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-2 sm:p-4">
    
     {/* Right side with categories */}
     <div id="mega-menu" className="items-center justify-between w-full md:flex md:w-auto md:order-1">
-      <ul className="flex flex-row overflow-x-auto mt-4 font-medium md:flex-row md:mt-0 md:space-x-4 rtl:space-x-reverse">
+      <ul className="flex flex-row overflow-x-auto mt-2 sm:mt-4 font-medium md:flex-row md:mt-0 md:space-x-4 rtl:space-x-reverse">
         <li>
-          <Link href="#">
-            <div className="block py-2 px-3 text-base text-gray-200 border border-transparent hover:border-white hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Mens</div>
+          <Link href="/">
+            <div className="whitespace-nowrap block py-1 sm:py-2 px-2 sm:px-3 text-base text-gray-200 border border-transparent hover:border-white hover:text-white 
+            hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 
+            md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Home</div>
           </Link>
         </li>
         <li>
           <Link href="#">
-            <div className="block py-2 px-3 text-base text-gray-200 border border-transparent hover:border-white hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Womens</div>
+            <div className="whitespace-nowrap block py-1 sm:py-2 px-2 sm:px-3 text-base text-gray-200 border border-transparent hover:border-white hover:text-white 
+            hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 
+            md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Customer Service</div>
           </Link>
         </li>
         <li>
           <Link href="#">
-            <div className="block py-2 px-3 text-base text-gray-200 border border-transparent hover:border-white hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Electronics</div>
+            <div className="whitespace-nowrap block py-1 sm:py-2 px-2 sm:px-3 text-base text-gray-200 border border-transparent hover:border-white 
+            hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 
+            dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Registry</div>
           </Link>
         </li>
         <li>
           <Link href="#">
-            <div className="block py-2 px-3 text-base text-gray-200 border border-transparent hover:border-white hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Home Appliances</div>
+            <div className="whitespace-nowrap block py-1 sm:py-2 px-2 sm:px-3 text-base text-gray-200 border border-transparent hover:border-white 
+            hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500
+             dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Gift Cards</div>
           </Link>
         </li>
         <li>
-          <Link href="#">
-            <div className="block py-2 px-3 text-base text-gray-200 border border-transparent hover:border-white hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Furnitures</div>
+        <div className="whitespace-nowrap block py-1 sm:py-2 px-2 sm:px-3 text-base text-gray-200 border border-transparent hover:border-white 
+            hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500
+             dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">
+          <Link href="/seller/Seller">
+           Seller
           </Link>
-        </li>
-        <li>
-          <Link href="#">
-            <div className="block py-2 px-3 text-base text-gray-200 border border-transparent hover:border-white hover:text-white hover:bg-gray-700 md:hover:bg-transparent md:p-0 dark:text-gray-400 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700 transition duration-300">Mobiles</div>
-          </Link>
+          </div>
         </li>
       </ul>
     </div>
   </div>
 </nav>
+
 
 
     

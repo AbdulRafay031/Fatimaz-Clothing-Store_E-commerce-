@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
-import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react'
 import Layout from '@/component/Layout';
-import Link from 'next/link';
-import {FcGoogle} from 'react-icons/fc'
-import Eyebtn from "../component/Eyebtn";
-const Login = () => {
+import Link from 'next/link'
+import Eyebtn from '@/component/Eyebtn';
+
+
+const LoginSeller = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showEye, setshoweye] = useState(false);
  
- 
-
   const eyeToggle = (e) => {
     e.preventDefault();
     setshoweye(!showEye)
@@ -25,13 +22,13 @@ const Login = () => {
         {/* main heading */}
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            Sign in as a Seller
           </h2>
           <p className="flex flex-col mt-2 text-center text-sm text-gray-600 max-w">
             Or
             <div className="font-medium text-blue-600 hover:text-blue-500">
-              <Link href='/SignUp'>
-              Create an account
+              <Link href='/'>
+               Go to Home
               </Link>
             </div>
           </p>
@@ -105,8 +102,9 @@ const Login = () => {
       </div>
 
     </Layout>
+    
   )
 }
 
-export default Login
+export default LoginSeller 
 
