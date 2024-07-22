@@ -2,6 +2,8 @@
 import { React, useState } from "react"
 import Layout from "@/component/Layout";
 import Link from "next/link";
+
+
 import Eyebtn from "@/component/Eyebtn";
 
 const SignUpSeller = () => {
@@ -43,7 +45,7 @@ const SignUpSeller = () => {
               -OR-
               <p>Already have an account</p>
               <div className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
-                <Link href='/seller/Signin'>
+                <Link href='/Signin'>
                   Login 
                 </Link>
               </div>

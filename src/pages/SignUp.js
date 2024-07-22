@@ -43,7 +43,7 @@ const SignUp = () => {
   }
 
   try {
-    const res = await fetch("/api/register/route", {
+    const res = await fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const SignUp = () => {
     }
     if (res.status === 200) {
       setError("");
-      router.push("/login");
+      router.push("/");
     }
   } catch (error) {
     setError("Error, try again");

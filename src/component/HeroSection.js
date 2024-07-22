@@ -13,7 +13,7 @@ const HeroSection = () => {
           showThumbs={false}
         >
           <div>
-            <img src="/banner-2.jpg" alt="Product 1" className="object-cover w-full h-64 sm:h-80 lg:h-96" />
+            <img src="/ff.png" alt="Product 1" className="object-cover w-full h-64 sm:h-80 lg:h-96" />
             <p className="legend">Product 1</p>
           </div>
           <div>

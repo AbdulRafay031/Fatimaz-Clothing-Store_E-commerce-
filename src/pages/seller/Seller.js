@@ -82,6 +82,7 @@ export default function Seller() {
                 linkText: "Try Premium",
                 linkUrl: "/try-premium"
               }
+              
             ].map((card, index) => (
               <motion.div
                 key={index}
