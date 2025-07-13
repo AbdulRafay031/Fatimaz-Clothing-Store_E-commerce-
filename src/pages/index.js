@@ -1,43 +1,43 @@
 // pages/index.js
-
-import React from 'react';
-
-import Layout from '../component/Layout';
-import HeroSection from '@/component/HeroSection';
-import SideSection from '@/component/SideSection';
-import Product from '@/component/product';
+import React, { useState } from "react";
+import Layout from "../component/Layout";
+import HeroSection from "@/component/HeroSection";
+import Product from "../component/product";
+import ShowButtons from "@/component/showButtons";
+import Navbar from "../component/navbar";
+import axios from "axios";
 
 function HomePage() {
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-    return (
-       
-   <Layout>
-<div className="flex flex-col lg:flex-row justify-center items-center">
-  {/* Left Section (Sidebar) */}
-  <div className="w-full lg:w-1/4 px-4 lg:px-8 mb-4 lg:mb-0">
-    <div className="hidden lg:block">
-      <SideSection />
-    </div>
-  </div>
+  const handleCategorySelect = async (category) => {
+    try {
+      const url = category
+        ? `/api/product/products?category=${category}`
+        : `/api/product/products`;
 
-  {/* Right Section (Main Content) */}
-  <div className="w-full lg:w-3/4 px-4 lg:px-8">
-    <div className="container mx-auto mt-2">
-      {/* Show only on mobile screens */}
-      <h1 className="text-3xl font-bold mb-4 text-center lg:hidden">Featured Products</h1>
-      <HeroSection />
-    </div>
-  </div>
-</div>
+      console.log("Fetching products from:", url); // Add this log
 
-<div>
- <Product/>
-</div>
+      const response = await axios.get(url);
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error("Failed to fetch products", error);
+    }
+  };
 
-   </Layout>
-          
-        
-    );
+  return (
+    <Layout>
+      <Navbar onSearchResultsChange={setSearchResults} />
+
+      <div className="w-auto">
+        <HeroSection />
+      </div>
+
+      <ShowButtons onCategorySelect={handleCategorySelect} />
+      <Product searchResults={searchResults} />
+    </Layout>
+  );
 }
 
 export default HomePage;

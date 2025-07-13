@@ -1,24 +1,28 @@
-import React from 'react'
-import Navbar from './navbar';
-import Footer from './footer';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import Navbar from "./navbar";
+import Footer from "./footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   return (
     <>
-    <div>
-   
-    <Navbar/>
-    <div className='h-auto'>
-    <ToastContainer />
-    {children}
-    </div>
-    <Footer/>
-    </div>
+      <div>
+        <div className="h-auto bg-white">
+          <ToastContainer />
+          
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement(child) && typeof child.type !== "string") {
+              return React.cloneElement(child);
+            }
+            return child;
+          })}
+        </div>
+
+        <Footer />
+      </div>
     </>
-  )
-}
+  );
+};
 
 export default Layout;

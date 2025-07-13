@@ -11,23 +11,27 @@ const footer = () => {
             </h2>
             <ul className="-500 dark:-400 font-medium">
               <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
+                <a
+                  href="/company/about"
+                  className="hover:underline text-gray-300"
+                >
                   About
                 </a>
               </li>
               <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
+                <a
+                  href="/seller/Seller"
+                  className="hover:underline text-gray-300"
+                >
                   Careers
                 </a>
               </li>
               <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
+                <a
+                  href="/company/brand-center"
+                  className="hover:underline text-gray-300"
+                >
                   Brand Center
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
-                  Blog
                 </a>
               </li>
             </ul>
@@ -39,8 +43,11 @@ const footer = () => {
             </h2>
             <ul className="-500 dark:-400 font-medium">
               <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
-                  Discord Server
+                <a
+                  href="/company/fatimaz-community"
+                  className="hover:underline text-gray-300"
+                >
+                  Fatimaz Community
                 </a>
               </li>
               <li className="mb-4">
@@ -54,49 +61,49 @@ const footer = () => {
                 </a>
               </li>
               <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
+                <a
+                  href="/company/contact"
+                  className="hover:underline text-gray-300"
+                >
                   Contact Us
                 </a>
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h2 className="mb-6 text-xl font-bold uppercase dark:text-white ">
               Legal
             </h2>
             <ul className="-500 dark:-400 font-medium">
               <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
+                <a
+                  href="/company/privacy-policy"
+                  className="hover:underline text-gray-300"
+                >
                   Privacy Policy
                 </a>
               </li>
               <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
-                  Licensing
-                </a>
-              </li>
-              <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
+                <a
+                  href="/company/terms-and-conditions"
+                  className="hover:underline text-gray-300"
+                >
                   Terms &amp; Conditions
                 </a>
               </li>
             </ul>
           </div>
-         
         </div>
 
         <div className="px-4 py-6 bg-black-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
           <span className="text-sm -500 dark:-300 sm:text-center">
-            © 2023 <a href="https://flowbite.com/">Flowbite™</a>. All Rights
+            © 2011 <a href="https://flowbite.com/">Fatimaz</a>. All Rights
             Reserved.
           </span>
-          
+
           <div className="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
-            <a
-              href="#"
-              className="-400 hover:-900 dark:hover:text-white"
-            >
+            <a href="#" className="-400 hover:-900 dark:hover:text-white">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -112,10 +119,7 @@ const footer = () => {
               </svg>
               <span className="sr-only">Facebook page</span>
             </a>
-            <a
-              href="#"
-              className="-400 hover:-900 dark:hover:text-white"
-            >
+            <a href="#" className="-400 hover:-900 dark:hover:text-white">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -127,10 +131,7 @@ const footer = () => {
               </svg>
               <span className="sr-only">Discord community</span>
             </a>
-            <a
-              href="#"
-              className="-400 hover:-900 dark:hover:text-white"
-            >
+            <a href="#" className="-400 hover:-900 dark:hover:text-white">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -146,10 +147,7 @@ const footer = () => {
               </svg>
               <span className="sr-only">Twitter page</span>
             </a>
-            <a
-              href="#"
-              className="-400 hover:-900 dark:hover:text-white"
-            >
+            <a href="#" className="-400 hover:-900 dark:hover:text-white">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -165,10 +163,7 @@ const footer = () => {
               </svg>
               <span className="sr-only">GitHub account</span>
             </a>
-            <a
-              href="#"
-              className="-400 hover:-900 dark:hover:text-white"
-            >
+            <a href="#" className="-400 hover:-900 dark:hover:text-white">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -185,9 +180,7 @@ const footer = () => {
               <span className="sr-only">Dribbble account</span>
             </a>
           </div>
-
         </div>
-
       </div>
     </footer>
   );

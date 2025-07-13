@@ -1,33 +1,50 @@
-import React from 'react'
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-const HeroSection = () => {
-    return (
-        <div className="w-screen-md mx-auto ">
-        <Carousel
-          showArrows
-          autoPlay
-          infiniteLoop
-          className="rounded-lg shadow-lg"
-          style={{  maxWidth: '1400px', maxHeight: '400px', margin: ' auto' }} 
-          showThumbs={false}
-        >
-          <div>
-            <img src="/ff.png" alt="Product 1" className="object-cover w-full h-64 sm:h-80 lg:h-96" />
-            <p className="legend">Product 1</p>
-          </div>
-          <div>
-            <img src="/banner-3.jpg" alt="Product 2" className="object-cover w-full h-64 sm:h-80 lg:h-96" />
-            <p className="legend">Product 2</p>
-          </div>
-          <div>
-            <img src="/banner-4.jpg" alt="Product 3" className="object-cover w-full h-64 sm:h-80 lg:h-96" />
-            <p className="legend">Product 3</p>
-          </div>
-        </Carousel>
-      </div>
-      );
-    };
-    
+// components/HeroSection.js
+import React, { useEffect, useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-export default HeroSection
+const HeroSection = () => {
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch("/api/banner");
+        const data = await res.json();
+        if (data?.images) setImages(data.images);
+      } catch (err) {
+        console.error("Failed to fetch banner images", err);
+      }
+    };
+    fetchImages();
+  }, []);
+
+  return (
+    <div className="w-full">
+      <Carousel
+        showArrows
+        autoPlay
+        infiniteLoop
+        showThumbs={false}
+        interval={4000}
+        transitionTime={700}
+        stopOnHover
+        emulateTouch
+        swipeable
+        className="rounded-none"
+      >
+        {images.map((img, index) => (
+          <div key={index}>
+            <img
+              src={img}
+              alt={`Banner ${index + 1}`}
+              className="w-full h-[50vh] sm:h-[60vh] md:h-[70vh] object-cover"
+            />
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  );
+};
+
+export default HeroSection;

@@ -1,129 +1,110 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import {
+  LayoutList,
+  PackageCheck,
+  XCircle,
+  Clock,
+  RotateCcw,
+} from "lucide-react";
+import Footer from "@/component/footer";
+import AdminNavbar from "../../component/Admin-navbar";
+import InventoryChart from "../../component/InventoryChart";
+import OrderStatsGraph from "../../component/OrderStatsGraph";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Dashboard = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [stats, setStats] = useState({
+    total: 0,
+    confirmed: 0,
+    remaining: 0,
+    cancelled: 0,
+  });
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const res = await axios.get("/api/order/Get");
+      const orders = res.data;
+
+      const total = orders.length;
+      const confirmed = orders.filter((o) => o.status === "delivered").length;
+      const remaining = orders.filter((o) => o.status !== "delivered").length;
+      const cancelled = orders.filter((o) => o.status === "cancelled").length;
+
+      setStats({ total, confirmed, remaining, cancelled });
+    };
+
+    fetchOrders();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <nav className="bg-black shadow">
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between h-16">
-            <div className="flex items-center sm:hidden">
-              <button
-                onClick={toggleMenu}
-                className="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-              >
-                &#9776;
-              </button>
+    <div className="min-h-screen bg-white flex flex-col">
+      <AdminNavbar />
+
+      <main className="relative flex flex-col items-center justify-center flex-1 pt-16">
+        <h1 className="text-6xl font-bold text-center mt-6 mb-10 text-black">
+          Fatimaz Dashboard
+        </h1>
+
+        {/* Icon Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {/* Total Orders */}
+          <Link href="/admin/Total-Order">
+            <div className="flex flex-col items-center text-center hover:scale-105 transition cursor-pointer">
+              <LayoutList className="w-12 h-12 text-blue-600 mb-2" />
+              <span className="text-sm font-medium text-gray-800">
+                Total Orders
+              </span>
             </div>
-            <div className="absolute inset-y-0 left-12 flex items-center sm:left-0">
-              {/* Animated Logo */}
-              <div className="flex items-center">
-                <img
-                  src="/logo-1.webp"
-                  className="h-8 mr-2"
-                  alt="Flowbite Logo"
-                />
-                <span className="text-2xl font-bold whitespace-nowrap text-white">
-                  FATIMAZ
-                </span>
-              </div>
+          </Link>
+
+          {/* Confirmed Delivery */}
+          <Link href="/admin/Confirm-Deliver">
+            <div className="flex flex-col items-center text-center hover:scale-105 transition cursor-pointer">
+              <PackageCheck className="w-12 h-12 text-green-600 mb-2" />
+              <span className="text-sm font-medium text-gray-800">
+                Confirmed Delivery
+              </span>
             </div>
-            <div className="hidden sm:flex flex-1 items-center justify-center">
-              <div className="flex space-x-4">
-                <Link href="/admin/Addnewproduct">
-                  <div className="text-white hover:bg-sky-700 block px-3 py-2 rounded-md text-base font-medium">
-                    Add New Product
-                  </div>
-                </Link>
-                <Link href="/admin/Manageproduct">
-                  <div className="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">
-                    Manage Product
-                  </div>
-                </Link>
-              </div>
+          </Link>
+
+          {/* Cancelled Orders */}
+          <Link href="/admin/Cencellation">
+            <div className="flex flex-col items-center text-center hover:scale-105 transition cursor-pointer">
+              <XCircle className="w-12 h-12 text-red-500 mb-2" />
+              <span className="text-sm font-medium text-gray-800">
+                Cancelled Orders
+              </span>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center">
-              <Link href="/">
-                <div className="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">
-                  Logout
-                </div>
-              </Link>
+          </Link>
+
+          {/* Remaining Orders */}
+          <Link href="/admin/Remaining-Order">
+            <div className="flex flex-col items-center text-center hover:scale-105 transition cursor-pointer">
+              <Clock className="w-12 h-12 text-yellow-500 mb-2" />
+              <span className="text-sm font-medium text-gray-800">
+                Remaining Orders
+              </span>
             </div>
-          </div>
+          </Link>
+
+          {/* Return Order */}
+
+          <Link href="/admin/Return-Requests">
+            <div className="flex flex-col items-center text-center hover:scale-105 transition cursor-pointer">
+              <RotateCcw className="w-12 h-12 text-purple-500 mb-2" />
+              <span className="text-sm font-medium text-gray-800">
+                Return Orders
+              </span>
+            </div>
+          </Link>
         </div>
 
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="sm:hidden bg-black"
-            >
-              <div className="px-2 pt-2 pb-3 space-y-1">
-                <Link href="/admin/Addnewproduct">
-                  <div className="text-white hover:bg-sky-700 block px-3 py-2 rounded-md text-base font-medium">
-                    Add New Product
-                  </div>
-                </Link>
-                <Link href="/admin/Manageproduct">
-                  <div className="text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
-                    Manage Product
-                  </div>
-                </Link>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-
-      <main className="relative top-0 transform -translate-y-1/4">
-        <div className="flex items-center justify-center h-20 sm:h-60 md:h-80 lg:h-76">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-gray-800 text-center animate-flicker">
-            <span className="letter-border">F</span>
-            <span className="letter-border">A</span>
-            <span className="letter-border">T</span>
-            <span className="letter-border">I</span>
-            <span className="letter-border">M</span>
-            <span className="letter-border">A</span>
-            <span className="letter-border">Z</span>
-          </h1>
-        </div>
-        <style jsx>{`
-          @keyframes flicker {
-            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
-              opacity: 1;
-              color: sky-300;
-              text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.9), 0 0 40px rgba(255, 255, 255, 0.8), 0 0 50px rgba(255, 255, 255, 0.7);
-            }
-            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-              opacity: 0.4;
-              color: #f0f0f0;
-              text-shadow: none;
-            }
-          }
-
-          .animate-flicker {
-            animation: flicker 2s infinite;
-          }
-
-          .letter-border {
-            display: inline-block;
-            -webkit-text-stroke: 1px black;
-            text-stroke: 1px black;
-          }
-        `}</style>
-        <div>
-          <h1>Welcome to the dashboard</h1>
-        </div>
+        <InventoryChart />
+        <OrderStatsGraph stats={stats} />
       </main>
+
+      <Footer />
     </div>
   );
 };

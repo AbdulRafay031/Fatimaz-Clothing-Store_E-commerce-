@@ -1,10 +1,11 @@
-
-import { React, useState } from "react"
+import { React, useState } from "react";
 import Layout from "@/component/Layout";
 import Link from "next/link";
-
-
+import connectDB from "../../lib/mongodb";
+import Seller from "@/models/seller";
+import bcrypt from "bcryptjs";
 import Eyebtn from "@/component/Eyebtn";
+import { useRouter } from "next/router";
 
 const SignUpSeller = () => {
   const [name, setName] = useState("");
@@ -12,20 +13,57 @@ const SignUpSeller = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [shopname, setShopname] = useState(""); 
+  const [shopname, setShopname] = useState("");
   const [category, setCategory] = useState("clothes");
   const [showEye, setShowEye] = useState(false);
+  const router = useRouter();
 
-  const categories = ["clothes", "electronics", "furniture", "home appliances", "groceries"];
+  const categories = [
+    "clothes",
+    "electronics",
+    "furniture",
+    "home appliances",
+    "groceries",
+  ];
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // logic
+  
+    try {
+      const res = await fetch("/api/seller/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          phone,
+          address,
+          shopname,
+          category,
+        }),
+      });
+
+
+
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message);
+        router.push("/seller/Signin");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error signing up seller:", error);
+    }
   };
+  
 
   const eyeToggle = (e) => {
     e.preventDefault();
@@ -44,21 +82,23 @@ const SignUpSeller = () => {
             <p className="flex flex-col mt-2 text-center text-sm leading-5 text-gray-500 max-w">
               -OR-
               <p>Already have an account</p>
-              <div className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
-                <Link href='/Signin'>
-                  Login 
-                </Link>
-              </div>
+              <Link href="/seller/Signin">
+                <div className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                  Login
+                </div>
+              </Link>
             </p>
           </div>
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form onSubmit={handleSubmit}>
-
                 {/* name field */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium leading-5 text-gray-700">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                  >
                     Name
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -77,7 +117,10 @@ const SignUpSeller = () => {
 
                 {/* Email Address */}
                 <div className="mt-6">
-                  <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-700">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                  >
                     Email address
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -96,7 +139,10 @@ const SignUpSeller = () => {
 
                 {/* password */}
                 <div className="mt-6">
-                  <label htmlFor="password" className="block text-sm font-medium leading-5 text-gray-700">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                  >
                     Password
                   </label>
 
@@ -116,7 +162,10 @@ const SignUpSeller = () => {
 
                 {/* phone field  */}
                 <div className="mt-6">
-                  <label htmlFor="phone" className="block text-sm font-medium leading-5 text-gray-700">
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                  >
                     Phone
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -135,7 +184,10 @@ const SignUpSeller = () => {
 
                 {/* address field */}
                 <div className="mt-6">
-                  <label htmlFor="address" className="block text-sm font-medium leading-5 text-gray-700">
+                  <label
+                    htmlFor="address"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                  >
                     Address
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -154,7 +206,10 @@ const SignUpSeller = () => {
 
                 {/* shopname field */}
                 <div className="mt-6">
-                  <label htmlFor="shopname" className="block text-sm font-medium leading-5 text-gray-700">
+                  <label
+                    htmlFor="shopname"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                  >
                     Shop Name
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
@@ -173,7 +228,10 @@ const SignUpSeller = () => {
 
                 {/* product category dropdown */}
                 <div className="mt-6">
-                  <label htmlFor="category" className="block text-sm font-medium leading-5 text-gray-700">
+                  <label
+                    htmlFor="category"
+                    className="block text-sm font-medium leading-5 text-gray-700"
+                  >
                     Product Category
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">

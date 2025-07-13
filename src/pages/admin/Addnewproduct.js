@@ -1,218 +1,436 @@
-"use client";
-import TileComponent from "@/component/TileComponent";
-import { AvailableSizes } from "@/AdminData";
-// import InputComponent from "@/components/FormElements/InputComponent";
-// import SelectComponent from "@/components/FormElements/SelectComponent";
-// import TileComponent from "@/components/FormElements/TileComponent";
-// import ComponentLevelLoader from "@/components/Loader/componentlevel";
-// import Notification from "@/components/Notification";
-// import { GlobalContext } from "@/context";
-// import { addNewProduct, updateAProduct } from "@/services/product";
-// import {
-//   AvailableSizes,
-//   adminAddProductformControls,
-//   firebaseConfig,
-//   firebaseStroageURL,
-// } from "@/utils";
-// import { initializeApp } from "firebase/app";
-// import {
-//   getDownloadURL,
-//   getStorage,
-//   ref,
-//   uploadBytesResumable,
-// } from "firebase/storage";
-// import { useRouter } from "next/navigation";
-// import { useContext, useEffect, useState } from "react";
-// import { toast } from "react-toastify";
-// import { resolve } from "styled-jsx/css";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import Footer from "@/component/footer";
 
-// const app = initializeApp(firebaseConfig);
-// const storage = getStorage(app, firebaseStroageURL);
+const AddProduct = () => {
+  const [category, setCategory] = useState("");
+  const [subCategories, setSubCategories] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    price: "",
+    description: "",
+    subCategory: "",
+    onSale: "No",
+    availableSize: "",
+    color:"",
+    dropPrice: "",
+    images: [],
+  });
 
-// const createUniqueFileName = (getFile) => {
-//   const timeStamp = Date.now();
-//   const randomStringValue = Math.random().toString(36).substring(2, 12);
+  const router = useRouter();
 
-//   return `${getFile.name}-${timeStamp}-${randomStringValue}`;
-// };
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { id } = router.query;
+      if (!id) return;
 
-// async function helperForUPloadingImageToFirebase(file) {
-//   const getFileName = createUniqueFileName(file);
-//   const storageReference = ref(storage, `ecommerce/${getFileName}`);
-//   const uploadImage = uploadBytesResumable(storageReference, file);
+      setIsUpdate(true);
 
-//   return new Promise((resolve, reject) => {
-//     uploadImage.on(
-//       "state_changed",
-//       (snapshot) => {},
-//       (error) => {
-//         console.log(error);
-//         reject(error);
-//       },
-//       () => {
-//         getDownloadURL(uploadImage.snapshot.ref)
-//           .then((downloadUrl) => resolve(downloadUrl))
-//           .catch((error) => reject(error));
-//       }
-//     );
-//   });
-// }
+      try {
+        const res = await fetch(`/api/product/${id}`);
+        const data = await res.json();
+        if (res.ok) {
+          setFormData({
+            name: data.name,
+            price: data.price,
+            description: data.description,
+            category: data.category,
+            subCategory: data.subCategory,
+            onSale: data.onSale,
+            availableSize: data.availableSize,
+            color: data.color,
+            dropPrice: data.dropPrice,
+            images: data.images,
+          });
+        } else {
+          toast.error("Failed to load product data");
+        }
+      } catch (error) {
+        toast.error("Something went wrong");
+        console.error(error);
+      }
+    };
 
-// const initialFormData = {
-//   name: "",
-//   price: 0,
-//   description: "",
-//   category: "men",
-//   sizes: [],
-//   deliveryInfo: "",
-//   onSale: "no",
-//   imageUrl: "",
-//   priceDrop: 0,
-// };
+    fetchProduct();
+  }, [router.query]); // Ensure router.query is not changing unexpectedly
 
-export default function AddNewProduct() {
-//   const [formData, setFormData] = useState(initialFormData);
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    setCategory(selectedCategory);
+    setFormData((prev) => ({ ...prev, category: selectedCategory }));
 
-//   const {
-//     componentLevelLoader,
-//     setComponentLevelLoader,
-//     currentUpdatedProduct,
-//     setCurrentUpdatedProduct,
-//   } = useContext(GlobalContext);
+    if (selectedCategory === "Baba Suit") {
+      setSubCategories([
+        "Zero Baba Suit",
+        "S, M, L Baba Suit",
+        "1, 2 Baba Suit",
+        "20, 22, 24 Baba Suit",
+      ]);
+    } else if (selectedCategory === "Baby Suit") {
+      setSubCategories([
+        "1, 2 Baby Suit",
+        "S, M, L Baby Suit",
+        "24, 26, 28 Baby Suit",
+        "30, 32, 34 Baby Suit",
+        "36, 38, 40 Baby Suit",
+      ]);
+    } else if (selectedCategory === "Fancy Frock") {
+      setSubCategories([
+        "18 to 22",
+        "24 to 28",
+        "30 to 34",
+        "36 to 40",
+        "Free Size",
+        "Ladies",
+      ]);
+    } else {
+      setSubCategories([]);
+    }
+  };
 
-//   console.log(currentUpdatedProduct);
+  const handleInputChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-//   const router = useRouter();
+  const handleFileUpload = async (e, imageType) => {
+    const files = Array.from(e.target.files);
+    const uploadedUrls = [];
 
-//   useEffect(() => {
-//     if (currentUpdatedProduct !== null) setFormData(currentUpdatedProduct);
-//   }, [currentUpdatedProduct]);
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("file", file);
 
-//   async function handleImage(event) {
-//     const extractImageUrl = await helperForUPloadingImageToFirebase(
-//       event.target.files[0]
-//     );
+      try {
+        const response = await fetch("/api/cloudnary/upload", {
+          method: "POST",
+          body: formData,
+        });
 
-//     if (extractImageUrl !== "") {
-//       setFormData({
-//         ...formData,
-//         imageUrl: extractImageUrl,
-//       });
-//     }
-//   }
+        const data = await response.json();
 
-//   function handleTileClick(getCurrentItem) {
-//     let cpySizes = [...formData.sizes];
-//     const index = cpySizes.findIndex((item) => item.id === getCurrentItem.id);
+        if (response.ok) {
+          uploadedUrls.push(data.url);
+        } else {
+          toast.error("Upload failed");
+          console.error("Upload error:", data);
+        }
+      } catch (err) {
+        toast.error("Upload failed");
+        console.error("Unexpected error:", err);
+      }
+    }
 
-//     if (index === -1) {
-//       cpySizes.push(getCurrentItem);
-//     } else {
-//       cpySizes = cpySizes.filter((item) => item.id !== getCurrentItem.id);
-//     }
+    // Ensure that prev.images is an array
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images
+        ? [...prev.images, ...uploadedUrls]
+        : [...uploadedUrls], // If prev.images is undefined, initialize it as an empty array
+    }));
+  };
 
-//     setFormData({
-//       ...formData,
-//       sizes: cpySizes,
-//     });
-//   }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-//   async function handleAddProduct() {
-//     setComponentLevelLoader({ loading: true, id: "" });
-//     const res =
-//       currentUpdatedProduct !== null
-//         ? await updateAProduct(formData)
-//         : await addNewProduct(formData);
+    const { id } = router.query;
+    const method = isUpdate ? "PUT" : "POST";
+    const url = isUpdate ? `/api/product/${id}` : "/api/product/products";
 
-//     console.log(res);
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-//     if (res.success) {
-//       setComponentLevelLoader({ loading: false, id: "" });
-//       toast.success(res.message, {
-//         position: toast.POSITION.TOP_RIGHT,
-//       });
+      const result = await response.json();
+      if (response.ok) {
+        toast.success(
+          isUpdate
+            ? "Product updated successfully"
+            : "Product added successfully"
+        );
+        router.push("/admin/Manageproduct");
+      } else {
+        toast.error(result.message || "Submission failed");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error("Error:", error);
+    }
+  };
 
-//       setFormData(initialFormData);
-//       setCurrentUpdatedProduct(null)
-//       setTimeout(() => {
-//         router.push("/admin-view/all-products");
-//       }, 1000);
-//     } else {
-//       toast.error(res.message, {
-//         position: toast.POSITION.TOP_RIGHT,
-//       });
-//       setComponentLevelLoader({ loading: false, id: "" });
-//       setFormData(initialFormData);
-//     }
-//   }
-
-//   console.log(formData);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <div className="w-full mt-5 mr-0 mb-0 ml-0 relative">
-      <div className="flex flex-col items-start justify-start p-10 bg-white shadow-2xl rounded-xl relative">
-        <div className="w-full mt-6 mr-0 mb-0 ml-0 space-y-8">
-          <input
-            accept="image/*"
-            max="1000000"
-            type="file"
-            // onChange={handleImage}
-          />
+    <div className="mt-10">
+      {/* NAVIGATION BAR */}
+      <nav className="bg-black shadow">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+          <div className="relative flex items-center justify-between h-16">
+            <div className="flex items-center sm:hidden">
+              <button
+                onClick={toggleMenu}
+                className="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                &#9776;
+              </button>
+            </div>
+            <div className="absolute inset-y-0 left-12 flex items-center sm:left-0">
+              <div className="flex items-center">
+                <img src="/logo-1.webp" className="h-8 mr-2" alt="Fatimaz" />
+                <span className="text-2xl font-bold whitespace-nowrap text-white">
+                  FATIMAZ
+                </span>
+              </div>
+            </div>
+            <div className="hidden sm:flex flex-1 items-center justify-center">
+              <div className="flex space-x-4">
+                <Link
+                  href="/admin/Addnewproduct"
+                  className="text-white hover:bg-sky-700 block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Add New Product
+                </Link>
+                <Link
+                  href="/admin/Manageproduct"
+                  className="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Manage Product
+                </Link>
+              </div>
+            </div>
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              <Link
+                href="/"
+                className="text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Logout
+              </Link>
+            </div>
+          </div>
+        </div>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="sm:hidden bg-black"
+            >
+              <div className="px-2 pt-2 pb-3 space-y-1">
+                <Link
+                  href="/admin/Addnewproduct"
+                  className="text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Add New Product
+                </Link>
+                <Link
+                  href="/admin/Manageproduct"
+                  className="text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Manage Product
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
 
-          <div className="flex gap-2 flex-col">
-            <label>Available sizes</label>
-            <TileComponent
-             
-              data={AvailableSizes}
+      {/* PRODUCT FORM */}
+      <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          {isUpdate ? "Update Product" : "Add New Product"}
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* IMAGE INPUTS */}
+          <div>
+            <label className="block text-gray-700">Front Images:</label>
+            <input
+              type="file"
+              name="frontImages"
+              multiple
+              onChange={(e) => handleFileUpload(e, "frontImages")}
+              className="block w-full mt-1 text-sm text-gray-500"
+            />
+
+            <label className="block text-gray-700 mt-4">Backside Images:</label>
+            <input
+              type="file"
+              multiple
+              onChange={(e) => handleFileUpload(e, "backImages")}
+              className="block w-full mt-1 text-sm text-gray-500"
+            />
+            <label className="block text-gray-700 mt-4">
+              Full View Images:
+            </label>
+            <input
+              type="file"
+              multiple
+              onChange={(e) => handleFileUpload(e, "fullImages")}
+              className="block w-full mt-1 text-sm text-gray-500"
             />
           </div>
-          {/* {adminAddProductformControls.map((controlItem) =>
-            controlItem.componentType === "input" ? (
-              <InputComponent
-                type={controlItem.type}
-                placeholder={controlItem.placeholder}
-                label={controlItem.label}
-                value={formData[controlItem.id]}
-                onChange={(event) => {
-                  setFormData({
-                    ...formData,
-                    [controlItem.id]: event.target.value,
-                  });
-                }}
-              />
-            ) : controlItem.componentType === "select" ? (
-              <SelectComponent
-                label={controlItem.label}
-                options={controlItem.options}
-                value={formData[controlItem.id]}
-                onChange={(event) => {
-                  setFormData({
-                    ...formData,
-                    [controlItem.id]: event.target.value,
-                  });
-                }}
-              />
-            ) : null
-          )} */}
+
+          {/* PRODUCT NAME */}
+          <div>
+            <label className="block text-gray-700">Product Name:</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* CATEGORY */}
+          <div>
+            <label className="block text-gray-700">Category:</label>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleCategoryChange}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select Category</option>
+              <option value="Baba Suit">Baba Suit</option>
+              <option value="Baby Suit">Baby Suit</option>
+              <option value="Boys Pants">Boys Pants</option>
+              <option value="Girls Pants">Girls Pants</option>
+              <option value="Fancy Frock">Fancy Frock</option>
+              <option value="Boys T-shirt">Boys T-shirt</option>
+              <option value="Boys Shirt">Boys Shirt</option>
+              <option value="lehenga">Lehenga</option>
+              <option value="Garara">Garara</option>
+            </select>
+          </div>
+
+          {/* SUB CATEGORY */}
+          {subCategories.length > 0 && (
+            <div>
+              <label className="block text-gray-700">Sub Category:</label>
+              <select
+                name="subCategory"
+                value={formData.subCategory}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Sub Category</option>
+                {subCategories.map((sub, index) => (
+                  <option key={index} value={sub}>
+                    {sub}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* PRICE */}
+          <div>
+            <label className="block text-gray-700">Price:</label>
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleInputChange}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* DROP PRICE */}
+          <div>
+            <label className="block text-gray-700">Drop Price:</label>
+            <input
+              type="number"
+              name="dropPrice"
+              value={formData.dropPrice}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* SIZE */}
+          <div>
+            <label className="block text-gray-700">Available Size:</label>
+            <input
+              type="text"
+              name="availableSize"
+              value={formData.availableSize}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* DESCRIPTION */}
+          <div>
+            <label className="block text-gray-700">Description:</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            ></textarea>
+          </div>
+
+          {/* COLOR FIELD */}
+          <div className="mt-4">
+            <label className="block text-gray-700">Add Color:</label>
+            <input
+              type="text"
+              name="color"
+              placeholder="e.g. red, #00ff00"
+              value={formData.color}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* SALE STATUS */}
+          <div>
+            <label className="block text-gray-700">On Sale:</label>
+            <select
+              name="onSale"
+              value={formData.onSale}
+              onChange={handleInputChange}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+
+          {/* SUBMIT BUTTON */}
           <button
-            // onClick={handleAddProduct}
-            className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide"
+            type="submit"
+            className="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
           >
-            {/* {componentLevelLoader && componentLevelLoader.loading ? (
-              <ComponentLevelLoader
-                text={currentUpdatedProduct !== null ? 'Updating Product' : "Adding Product"}
-                color={"#ffffff"}
-                loading={componentLevelLoader && componentLevelLoader.loading}
-              />
-            ) : currentUpdatedProduct !== null ? (
-              "Update Product"
-            ) : (
-              "Add Product"
-            )} */}
+            {isUpdate ? "Update Product" : "Add Product"}
           </button>
-        </div>
+        </form>
       </div>
-      {/* <Notification /> */}
+
+      {/* Footer if needed */}
+      <Footer />
     </div>
   );
-}
+};
+
+export default AddProduct;
