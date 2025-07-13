@@ -103,7 +103,10 @@ const footer = () => {
           </span>
 
           <div className="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
-            <a href="#" className="-400 hover:-900 dark:hover:text-white">
+            <a
+              href="https://www.facebook.com/share/14E39V6MMie/"
+              className="-400 hover:-900 dark:hover:text-white"
+            >
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -119,7 +122,10 @@ const footer = () => {
               </svg>
               <span className="sr-only">Facebook page</span>
             </a>
-            <a href="#" className="-400 hover:-900 dark:hover:text-white">
+            <a
+              href="/company/fatimaz-community"
+              className="-400 hover:-900 dark:hover:text-white"
+            >
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -131,23 +137,23 @@ const footer = () => {
               </svg>
               <span className="sr-only">Discord community</span>
             </a>
-            <a href="#" className="-400 hover:-900 dark:hover:text-white">
+            <a
+              href="https://www.instagram.com/fatimaz031?igsh=dzJmeTY4dHl6dWkw" 
+              className="text-gray-400 hover:text-pink-500 dark:hover:text-white"
+            >
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
-                viewBox="0 0 20 17"
+                viewBox="0 0 24 24"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M20 1.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.344 8.344 0 0 1-2.605.98A4.13 4.13 0 0 0 13.85 0a4.068 4.068 0 0 0-4.1 4.038 4 4 0 0 0 .105.919A11.705 11.705 0 0 1 1.4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 4.1 9.635a4.19 4.19 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 0 14.184 11.732 11.732 0 0 0 6.291 16 11.502 11.502 0 0 0 17.964 4.5c0-.177 0-.35-.012-.523A8.143 8.143 0 0 0 20 1.892Z"
-                  clipRule="evenodd"
-                />
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.056 1.97.24 2.43.403a4.902 4.902 0 0 1 1.675 1.093 4.902 4.902 0 0 1 1.093 1.675c.163.46.347 1.26.403 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.056 1.17-.24 1.97-.403 2.43a4.902 4.902 0 0 1-1.093 1.675 4.902 4.902 0 0 1-1.675 1.093c-.46.163-1.26.347-2.43.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.056-1.97-.24-2.43-.403a4.902 4.902 0 0 1-1.675-1.093 4.902 4.902 0 0 1-1.093-1.675c-.163-.46-.347-1.26-.403-2.43-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.056-1.17.24-1.97.403-2.43a4.902 4.902 0 0 1 1.093-1.675A4.902 4.902 0 0 1 4.72 2.636c.46-.163 1.26-.347 2.43-.403 1.266-.058 1.646-.07 4.85-.07zm0 1.837c-3.16 0-3.522.012-4.764.07-.987.046-1.524.215-1.877.36a3.066 3.066 0 0 0-1.115.73 3.066 3.066 0 0 0-.73 1.115c-.145.353-.314.89-.36 1.877-.058 1.242-.07 1.604-.07 4.764s.012 3.522.07 4.764c.046.987.215 1.524.36 1.877.174.417.423.8.73 1.115.315.308.698.557 1.115.73.353.145.89.314 1.877.36 1.242.058 1.604.07 4.764.07s3.522-.012 4.764-.07c.987-.046 1.524-.215 1.877-.36a3.066 3.066 0 0 0 1.115-.73 3.066 3.066 0 0 0 .73-1.115c.145-.353.314-.89.36-1.877.058-1.242.07-1.604.07-4.764s-.012-3.522-.07-4.764c-.046-.987-.215-1.524-.36-1.877a3.066 3.066 0 0 0-.73-1.115 3.066 3.066 0 0 0-1.115-.73c-.353-.145-.89-.314-1.877-.36-1.242-.058-1.604-.07-4.764-.07zm0 4.838a5.999 5.999 0 1 1 0 11.998 5.999 5.999 0 0 1 0-11.998zm0 9.9a3.901 3.901 0 1 0 0-7.802 3.901 3.901 0 0 0 0 7.802zm6.406-10.845a1.44 1.44 0 1 1-2.881 0 1.44 1.44 0 0 1 2.881 0z" />
               </svg>
-              <span className="sr-only">Twitter page</span>
+              <span className="sr-only">Instagram page</span>
             </a>
-            <a href="#" className="-400 hover:-900 dark:hover:text-white">
+
+            <a href="https://github.com/AbdulRafay031" className="-400 hover:-900 dark:hover:text-white">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
@@ -163,7 +169,7 @@ const footer = () => {
               </svg>
               <span className="sr-only">GitHub account</span>
             </a>
-            <a href="#" className="-400 hover:-900 dark:hover:text-white">
+            <a href="" className="-400 hover:-900 dark:hover:text-white">
               <svg
                 className="w-4 h-4"
                 aria-hidden="true"
