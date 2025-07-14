@@ -2,6 +2,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import connectDB from "../../lib/mongodb";
 import Product from "../../models/Product";
+import mongoose from "mongoose";
 import Nav from "../../component/navbar";
 import Footer from "../../component/footer";
 import { useState, useEffect } from "react";
@@ -26,11 +27,8 @@ export default function ProductDetails({ product, relatedProducts }) {
   return (
     <div>
       <Nav />
-
-      {/* Main Content */}
       <div className="p-4 sm:p-6 max-w-7xl mx-auto ">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left: Thumbnails */}
           <div className="flex flex-row lg:flex-col gap-4 justify-center lg:justify-start">
             {selectedProduct.frontImages?.slice(0, 4).map((img, index) => (
               <img
@@ -45,7 +43,6 @@ export default function ProductDetails({ product, relatedProducts }) {
             ))}
           </div>
 
-          {/* Center: Main Image + Info */}
           <div className="flex-1">
             <div className="border rounded-lg overflow-hidden mb-4 sm:mb-6">
               <img
@@ -72,6 +69,7 @@ export default function ProductDetails({ product, relatedProducts }) {
               <p className="text-black dark:text-white">
                 Product Size : {selectedProduct.availableSize}
               </p>
+
               <label
                 htmlFor="userSize"
                 className="block text-black dark:text-white font-medium mb-1"
@@ -85,8 +83,9 @@ export default function ProductDetails({ product, relatedProducts }) {
                 placeholder="According to above size"
                 value={userSize}
                 onChange={(e) => setUserSize(e.target.value)}
-                className="w-full text-black px-4 py-2 border ... "
+                className="w-full text-black px-4 py-2 border"
               />
+
               <p className="text-black dark:text-white">
                 Choose Product Color according to images
               </p>
@@ -103,16 +102,17 @@ export default function ProductDetails({ product, relatedProducts }) {
                 placeholder="According to image color"
                 value={userColor}
                 onChange={(e) => setUserColor(e.target.value)}
-                className="w-full text-black px-4 py-2 border ..."
+                className="w-full text-black px-4 py-2 border"
               />
+
               <div className="text-lg sm:text-xl font-semibold text-black dark:text-white">
                 {selectedProduct.onSale === "Yes" &&
                 selectedProduct.dropPrice ? (
                   <>
                     <span className="text-red-600 line-through mr-2">
-                      ${selectedProduct.price}
+                      Rs. {selectedProduct.price}
                     </span>
-                    <span>RS {selectedProduct.dropPrice}</span>
+                    <span>Rs. {selectedProduct.dropPrice}</span>
                     <span className="text-green-600 text-sm ml-2">
                       (
                       {Math.round(
@@ -125,13 +125,12 @@ export default function ProductDetails({ product, relatedProducts }) {
                     </span>
                   </>
                 ) : (
-                  <span>RS {selectedProduct.price}</span>
+                  <span>Rs. {selectedProduct.price}</span>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Right: Action Card */}
           <div className="w-full lg:w-1/3">
             <div className="border rounded-lg p-6 shadow-lg bg-white sticky top-20">
               <h2 className="text-xl font-semibold mb-4 text-black">
@@ -152,7 +151,7 @@ export default function ProductDetails({ product, relatedProducts }) {
                     });
                     router.push("/addToCart");
                   }}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white ..."
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
                 >
                   Add to Cart
                 </button>
@@ -162,7 +161,6 @@ export default function ProductDetails({ product, relatedProducts }) {
         </div>
       </div>
 
-      {/* Related Products */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-10 mb-10">
         <h2 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-black dark:text-white mb-6 text-center">
           Related Products
@@ -189,14 +187,14 @@ export default function ProductDetails({ product, relatedProducts }) {
                   {item.onSale === "Yes" && item.dropPrice ? (
                     <>
                       <span className="text-red-500 line-through mr-2">
-                        ${item.price}
+                        Rs. {item.price}
                       </span>
                       <span className="text-green-600">
-                        RS {item.dropPrice}
+                        Rs. {item.dropPrice}
                       </span>
                     </>
                   ) : (
-                    <>RS {item.price}</>
+                    <>Rs. {item.price}</>
                   )}
                 </p>
               </div>
@@ -217,6 +215,10 @@ export default function ProductDetails({ product, relatedProducts }) {
 export async function getServerSideProps(context) {
   const { id } = context.params;
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return { notFound: true };
+  }
+
   await connectDB();
 
   try {
@@ -227,12 +229,10 @@ export async function getServerSideProps(context) {
       };
     }
 
-    // Convert main product fields
     product._id = product._id.toString();
     if (product.createdAt) product.createdAt = product.createdAt.toString();
     if (product.updatedAt) product.updatedAt = product.updatedAt.toString();
 
-    // Fetch related products from the same category, excluding the current product
     const relatedProducts = await Product.find({
       category: product.category,
       _id: { $ne: product._id },
