@@ -56,7 +56,7 @@ const footer = () => {
                 </a>
               </li>
               <li className="mb-4">
-                <a href="#" className="hover:underline text-gray-300">
+                <a href="https://www.facebook.com/share/14E39V6MMie/" className="hover:underline text-gray-300">
                   Facebook
                 </a>
               </li>
