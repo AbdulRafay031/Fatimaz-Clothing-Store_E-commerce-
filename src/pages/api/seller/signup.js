@@ -1,5 +1,4 @@
-import connectMongoDB from "@/lib/connectmongodb";
-import Seller from "@/models/seller";
+
 import bcrypt from "bcryptjs";
 
 export default async function handler(req, res) {

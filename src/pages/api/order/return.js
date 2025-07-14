@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import connectDB from "../../../lib/mongodb";
 import ReturnRequest from "../../../models/ReturnRequest";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]";
+// import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end("Method Not Allowed");

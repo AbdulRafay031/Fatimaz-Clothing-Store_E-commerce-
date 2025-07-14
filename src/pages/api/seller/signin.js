@@ -1,5 +1,3 @@
-import connectMongoDB from "@/lib/connectmongodb";
-import Seller from "@/models/seller";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
