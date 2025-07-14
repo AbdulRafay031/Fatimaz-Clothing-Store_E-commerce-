@@ -43,7 +43,7 @@ export default NextAuth({
     strategy: "jwt",
   },
   jwt: {
-    secret: process.env.JWT_SECRET,
+    secret: process.env.JWT,
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -59,5 +59,5 @@ export default NextAuth({
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH,
 });
