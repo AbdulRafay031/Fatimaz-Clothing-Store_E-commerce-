@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { toast } from "react-toastify";
-import connectDB from "../../lib/mongodb";
-import Product from "../../models/Product";
+import connectDB from "../../../lib/mongodb";
+import Product from "../../../models/Product";
 import mongoose from "mongoose";
-import Nav from "../../component/navbar";
-import Footer from "../../component/footer";
+import Nav from "../../../component/navbar";
+import Footer from "../../../component/footer";
 import { useState, useEffect } from "react";
-import { useCart } from "../../component/CartContext";
+import { useCart } from "../../../component/CartContext";
 import { useRouter } from "next/router";
 
 export default function ProductDetails({ product, relatedProducts }) {

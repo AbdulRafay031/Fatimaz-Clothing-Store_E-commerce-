@@ -33,11 +33,7 @@ const Product = ({ searchResults }) => {
   }, [searchResults]);
 
   if (loading) {
-    return (
-      
-        <div className="text-5xl mb-4">🛒</div>
-       
-    );
+    return <div className="text-5xl mb-4">🛒</div>;
   }
 
   if (!products || products.length === 0) {
@@ -51,7 +47,10 @@ const Product = ({ searchResults }) => {
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <Link href={`/displayproduct/${product._id}`} key={product._id}>
+          <Link
+            href={`/displayproduct/product/${product._id}`}
+            key={product._id}
+          >
             <div className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer">
               {Array.isArray(product.frontImages) &&
               product.frontImages.length > 0 ? (
