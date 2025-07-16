@@ -214,10 +214,8 @@ export default function ProductDetails({ product, relatedProducts }) {
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
-  console.log("Product ID from URL:", id);
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    console.log("Invalid ObjectId:", id);
     return { notFound: true };
   }
 
@@ -225,13 +223,15 @@ export async function getServerSideProps(context) {
 
   try {
     const product = await Product.findById(id).lean();
-    console.log("Fetched Product:", product);
-
     if (!product) {
-      return { notFound: true };
+      return {
+        notFound: true,
+      };
     }
 
     product._id = product._id.toString();
+    if (product.createdAt) product.createdAt = product.createdAt.toString();
+    if (product.updatedAt) product.updatedAt = product.updatedAt.toString();
 
     const relatedProducts = await Product.find({
       category: product.category,
@@ -243,13 +243,17 @@ export async function getServerSideProps(context) {
     const sanitizedRelated = relatedProducts.map((prod) => ({
       ...prod,
       _id: prod._id.toString(),
+      createdAt: prod.createdAt?.toString() || null,
+      updatedAt: prod.updatedAt?.toString() || null,
     }));
 
     return {
       props: { product, relatedProducts: sanitizedRelated },
     };
   } catch (error) {
-    console.error("Error in getServerSideProps:", error);
-    return { notFound: true }; // Causes 404 on Vercel
+    console.error("SSR Fetch Error:", error);
+    return {
+      notFound: true,
+    };
   }
 }
