@@ -17,7 +17,7 @@ function HomePage() {
         ? `/api/product/products?category=${category}`
         : `/api/product/products`;
 
-      console.log("Fetching products from:", url); // Add this log
+      console.log("Fetching products from:", url);
 
       const response = await axios.get(url);
       setSearchResults(response.data);

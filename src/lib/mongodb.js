@@ -5,11 +5,10 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
   throw new Error(
-    "Please define the MONGODB_URI environment variable in .env.local"
+    "Please define the MONGODB_URI environment variable in .env"
   );
 }
 
-// Global is used here to maintain a cached connection across hot reloads in dev
 let cached = global.mongoose;
 
 if (!cached) {
@@ -24,13 +23,9 @@ async function connectDB() {
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(MONGODB_URI, {
-        dbName: "Fatimaz",
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+        // dbName: "Fatimaz", // Keep dbName if needed
       })
-      .then((mongoose) => {
-        return mongoose;
-      });
+      .then((mongoose) => mongoose);
   }
 
   cached.conn = await cached.promise;
