@@ -187,8 +187,8 @@ export default function OrderSummary() {
             onChange={(e) => setDeliveryOption(e.target.value)}
             className="border p-2 rounded w-full"
           >
-            <option value="fast">Fast Delivery (2-3 days)</option>
-            <option value="standard">Standard Delivery (5-7 days)</option>
+            <option value="fast">Fast Delivery (2-3 days) RS 350</option>
+            <option value="standard">Standard Delivery (5-7 days) Rs 200</option>
           </select>
         </div>
 
